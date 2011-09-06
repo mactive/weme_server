@@ -13,17 +13,25 @@
  */
 class Users extends CI_Model
 {
-	private $table_name			= 'users';			// user accounts
-	private $profile_table_name	= 'user_profiles';	// user profiles
-	private $roles_table			= 'roles';			// user accounts
+	//private $table_name			= 'users';			// user accounts
+	//private $profile_table_name	= 'user_profiles';	// user profiles
+	//private $roles_table			= 'roles';			// user accounts
 
 	function __construct()
 	{
 		parent::__construct();
 
+		$this->_prefix 				= $this->config->item('db_table_prefix','fx_auth');
+		$this->profile_table_name 	= $this->_prefix.$this->config->item('db_user_profile_table','fx_auth');
+		$this->roles_table 			= $this->_prefix.$this->config->item('db_roles_table','fx_auth');
+		$this->table_name 			= $this->_prefix.$this->config->item('db_users_table','fx_auth');
+		/*
 		$ci =& get_instance();
-		$this->table_name			= $ci->config->item('db_table_prefix', 'tank_auth').$this->table_name;
-		$this->profile_table_name	= $ci->config->item('db_table_prefix', 'tank_auth').$this->profile_table_name;
+		
+		$this->_prefix = $this->config->item('db_table_prefix','fx_auth');
+		$this->profile_table_name	= $this->_prefix.$this->config->item('db_user_profile_table', 'fx_auth');
+		$this->roles_table			= $this->_prefix.$this->config->item('db_roles_table', 'fx_auth');
+		*/
 	}
 
 	function get_all($offset = 0, $row_count = 0)

@@ -152,7 +152,7 @@ $config['recaptcha_private_key'] = '';
 */
 $config['db_table_prefix'] = '';
 $config['db_users_table'] = 'users';
-$config['db_user_profile_table'] = 'user_profile';
+$config['db_user_profile_table'] = 'user_profiles';
 $config['db_user_temp_table'] = 'user_temp';
 $config['db_user_autologin'] = 'user_autologin';
 $config['db_roles_table'] = 'roles';

@@ -19,7 +19,7 @@ class Login_attempts extends CI_Model
 		parent::__construct();
 
 		$ci =& get_instance();
-		$this->table_name = $ci->config->item('db_table_prefix', 'tank_auth').$this->table_name;
+		$this->table_name = $ci->config->item('db_table_prefix', 'fx_auth').$this->table_name;
 	}
 
 	/**

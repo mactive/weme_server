@@ -7,8 +7,8 @@ class User_Temp extends CI_Model
 		parent::__construct();
 
 		// Other stuff
-		$this->_prefix = $this->config->item('db_table_prefix', 'tank_auth');
-		$this->_table = $this->_prefix.$this->config->item('db_user_temp_table', 'tank_auth');
+		$this->_prefix = $this->config->item('db_table_prefix');
+		$this->_table = $this->_prefix.$this->config->item('db_user_temp_table');
 	}
 	
 	function get_all($offset = 0, $row_count = 0)

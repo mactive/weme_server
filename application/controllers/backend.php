@@ -14,7 +14,7 @@ class Backend extends CI_Controller
 
 		// Protect entire controller so only admin, 
 		// and users that have granted role in permissions table can access it.
-		//$this->fx_auth->check_uri_permissions();
+		$this->fx_auth->check_uri_permissions();
 	}
 	
 	function index()
@@ -40,6 +40,12 @@ class Backend extends CI_Controller
 				}
 				// If unban button pressed
 				else if (isset($_POST['unban']))
+				{
+					// Unban user
+					$this->users->unban_user($value);
+				}
+				// If unban button pressed
+				else if (isset($_POST['edit']))
 				{
 					// Unban user
 					$this->users->unban_user($value);
@@ -181,12 +187,12 @@ class Backend extends CI_Controller
 	}
 	
 	function uri_permissions()
-	{
+	{		
 		function trim_value(&$value) 
 		{ 
 			$value = trim($value); 
 		}
-	
+		
 		$this->load->model('fx_auth/roles', 'roles');
 		$this->load->model('fx_auth/permissions', 'permissions');
 		

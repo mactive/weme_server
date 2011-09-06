@@ -719,7 +719,6 @@ class CI_Fx_auth
 		{
 			array_push($result, $value);
 		}
-		
 		// Get current user parent permissions
 		$parent_permissions = $this->ci->session->userdata('fx_parent_permissions');
 		
@@ -761,7 +760,8 @@ class CI_Fx_auth
 		$result = NULL;
 	
 		// Get current user permission
-		var_dump($this->ci->session->userdata);
+		print_r($this->ci->session->userdata);
+		
 		$permission = $this->ci->session->userdata('fx_permission');
 		
 		// Check if key is in user permission array
@@ -813,7 +813,7 @@ class CI_Fx_auth
 				{
 					$action = $controller.'index/';
 				}
-				
+								
 				// Get URI permissions from role and all parents
 				// Note: URI permissions is saved in 'uri' key
 				$roles_allowed_uris = $this->get_permissions_value('uri');

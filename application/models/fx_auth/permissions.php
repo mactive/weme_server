@@ -7,9 +7,9 @@ class Permissions Extends CI_Model
 		parent::__construct();
 
 		// Other stuff
-		$this->_prefix = $this->config->item('db_table_prefix', 'tank_auth');
-		$this->_table = $this->_prefix.$this->config->item('db_permissions_table', 'tank_auth');
-		$this->_roles_table = $this->_prefix.$this->config->item('db_roles_table', 'tank_auth');
+		$this->_prefix = $this->config->item('db_table_prefix','fx_auth');
+		$this->_table = $this->_prefix.$this->config->item('db_permissions_table','fx_auth');
+		$this->_roles_table = $this->_prefix.$this->config->item('db_roles_table','fx_auth');
 	}
 	
 	/**
@@ -102,7 +102,7 @@ class Permissions Extends CI_Model
 	// Get permission query
 	function get_permission($role_id)
 	{
-		$this->db->where('role_id', $role_id);
+		$this->db->where('role_id', $role_id);		
 		return $this->db->get($this->_table);
 	}
 	
