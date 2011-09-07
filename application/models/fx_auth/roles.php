@@ -9,7 +9,7 @@ class Roles extends CI_Model
 		parent::__construct();
 
 		$ci =& get_instance();
-		$this->table_name			= $ci->config->item('db_table_prefix', 'fx_auth').$this->table_name;
+		$this->table_name	= $ci->config->item('db_table_prefix', 'fx_auth').$this->table_name;
 	}
 	
 	function get_all()
@@ -39,6 +39,30 @@ class Roles extends CI_Model
 		$this->db->where('id', $role_id);
 		$this->db->delete($this->table_name);		
 	}
+	
+	
+	function get_parent_id($role_id)
+	{
+		$this->db->where('id', $role_id);
+		$query = $this->db->get($this->table_name);
+		foreach ($query->result() as $row)
+		{
+		    return $row->parent_id;
+		}
+	}
+	
+	function get_parent_roles_id($role_id){
+		
+		$parent_id  = $this->get_parent_id($role_id);
+		
+		$this->db->where('id', $parent_id);
+		$query = $this->db->get($this->table_name, 1);
+		foreach ($query->result() as $row)
+		{
+		    return $row->id;
+		}
+	}
+	
 }
 
 ?>

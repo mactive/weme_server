@@ -200,7 +200,6 @@ class Backend extends CI_Controller
 		{
 			// Convert back text area into array to be stored in permission data
 			$allowed_uris = explode("\n", $this->input->post('allowed_uris'));
-			
 			// Remove white space if available
 			array_walk($allowed_uris, 'trim_value');
 		
@@ -219,7 +218,6 @@ class Backend extends CI_Controller
 		$data['roles'] = $this->roles->get_all()->result();
 		// Get allowed uri permissions
 		$data['allowed_uris'] = $this->permissions->get_permission_value($role_id, 'uri');
-		
 		// Load view
 		$this->load->view('backend/uri_permissions', $data);
 	}

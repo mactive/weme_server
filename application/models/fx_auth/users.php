@@ -81,10 +81,14 @@ class Users extends CI_Model
 	 */
 	function get_user_by_login($login)
 	{
-		$this->db->where('LOWER(username)=', strtolower($login));
-		$this->db->or_where('LOWER(email)=', strtolower($login));
-
-		$query = $this->db->get($this->table_name);
+		$this->db->select('u.*, r.name AS role_name ');
+		$this->db->from("$this->table_name as u");
+		$this->db->join("$this->roles_table AS r " , 'r.id = u.role_id', 'left');
+		
+		$this->db->where('LOWER(u.username)=', strtolower($login));
+		$this->db->or_where('LOWER(u.email)=', strtolower($login));
+		
+		$query = $this->db->get();
 		if ($query->num_rows() == 1) return $query->row();
 		return NULL;
 	}

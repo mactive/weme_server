@@ -31,6 +31,8 @@ class CI_Fx_auth
 		//$this->ci->load->library('DX_Auth_Event');
 		$this->ci->load->database();
 		$this->ci->load->model('fx_auth/users');
+		$this->ci->load->model('fx_auth/permissions', 'permissions');
+		$this->ci->load->model('fx_auth/roles', 'roles');
 
 		// Try to autologin
 		$this->autologin();
@@ -73,6 +75,10 @@ class CI_Fx_auth
 						$this->ci->session->set_userdata(array(
 								'user_id'	=> $user->id,
 								'username'	=> $user->username,
+								'fx_role_id'	=> $user->role_id,
+								'fx_role_name'	=> $user->role_name,
+								'fx_permission'	=> $this->ci->permissions->get_permission_value($user->role_id, 'uri'),
+								'fx_parent_roles_id'=> $this->ci->roles->get_parent_roles_id($user->role_id),
 								'status'	=> ($user->activated == 1) ? STATUS_ACTIVATED : STATUS_NOT_ACTIVATED,
 						));
 
@@ -702,7 +708,7 @@ class CI_Fx_auth
 		$role_name = $this->ci->session->userdata('fx_role_name');
 		
 		$parent_roles_id = $this->ci->session->userdata('fx_parent_roles_id');
-		$parent_roles_name = $this->ci->session->userdata('fx_parent_roles_name');
+		//$parent_roles_name = $this->ci->session->userdata('fx_parent_roles_name');
 		
 		// Get current user permission
 		$value = $this->get_permission_value($key, FALSE);
@@ -719,37 +725,42 @@ class CI_Fx_auth
 		{
 			array_push($result, $value);
 		}
-		// Get current user parent permissions
-		$parent_permissions = $this->ci->session->userdata('fx_parent_permissions');
 		
-		$i = 0;
-		foreach ($parent_permissions as $permission)
+		if($this->ci->session->userdata('fx_parent_roles_id'))
 		{
-			if (array_key_exists($key, $permission))
+			// Get current user parent permissions
+			$parent_permissions = $this->ci->session->userdata('fx_parent_permissions');
+
+			$i = 0;
+			foreach ($parent_permissions as $permission)
 			{
-				$value = $permission[$key];
+				if (array_key_exists($key, $permission))
+				{
+					$value = $permission[$key];
+				}
+
+				if ($array_key == 'role_id')
+				{
+					// It's safe to use $parents_roles_id[$i] because array order is same with permission array
+					$result[$parent_roles_id[$i]] = $value;
+				}
+				elseif ($array_key == 'role_name')
+				{
+					// It's safe to use $parents_roles_name[$i] because array order is same with permission array
+					$result[$parent_roles_name[$i]] = $value;
+				}			
+				else
+				{
+					array_push($result, $value);
+				}
+
+				$i++;
 			}
 			
-			if ($array_key == 'role_id')
-			{
-				// It's safe to use $parents_roles_id[$i] because array order is same with permission array
-				$result[$parent_roles_id[$i]] = $value;
-			}
-			elseif ($array_key == 'role_name')
-			{
-				// It's safe to use $parents_roles_name[$i] because array order is same with permission array
-				$result[$parent_roles_name[$i]] = $value;
-			}			
-			else
-			{
-				array_push($result, $value);
-			}
-			
-			$i++;
 		}
 		
 		// Trigger event
-		$this->ci->dx_auth_event->got_permissions_value($this->get_user_id(), $key);
+		//$this->ci->dx_auth_event->got_permissions_value($this->get_user_id(), $key);
 		
 		return $result;
 	}
@@ -760,7 +771,7 @@ class CI_Fx_auth
 		$result = NULL;
 	
 		// Get current user permission
-		print_r($this->ci->session->userdata);
+		//print_r($this->ci->session->userdata);
 		
 		$permission = $this->ci->session->userdata('fx_permission');
 		

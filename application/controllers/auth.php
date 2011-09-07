@@ -22,6 +22,8 @@ class Auth extends CI_Controller
 		$this->load->library('form_validation');
 		$this->load->library('security');
 		$this->load->library('fx_auth');
+		
+		//$this->fx_auth->check_uri_permissions();
 	}
 
 	function index()

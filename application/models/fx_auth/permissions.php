@@ -52,7 +52,6 @@ class Permissions Extends CI_Model
 	function _unserialize($data)
 	{
 		$data = unserialize(stripslashes($data));
-		
 		if (is_array($data))
 		{
 			foreach ($data as $key => $val)
@@ -122,7 +121,7 @@ class Permissions Extends CI_Model
 			
 			if ($unserialize)
 			{				
-				$result = $this->_unserialize($row->data);
+				$result = $this->_unserialize($row->data);				
 			}
 		}
 		
