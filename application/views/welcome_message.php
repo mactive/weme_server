@@ -1,26 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
 <head>
-	<meta charset="utf-8">
-	<title>Welcome to CodeIgniter</title>
-
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />	
+	<title>微薄信息</title>
+	<link rel="stylesheet" type="text/css" href="<?=base_url()?>css/style.css" />
 </head>
 <body>
+<div class="wbox_500 radius_5px">
+	<img src="<?=$me['profile_image_url']?>" />
+	<?=$me['screen_name']?>你好 <?=$me['location']?>
+	
+	<?php if(is_array($ms)){
+		foreach( $ms as $item ){
+			?>
+			<div style="padding:10px;margin:5px;border:1px solid #ccc">
+				<div class="f_left" style="width:80px;"><img src="<?=$item['user']['profile_image_url']?>" /></div>
+				<div class="f_left" style="width:380px;"><?=$item['text'];?></div>
+				<div class="clear"></div>
+			
+			</div>		
+			<?
+		}
+	} ?>
 
-<h1>Welcome to CodeIgniter!</h1>
-
-<p>The page you are looking at is being generated dynamically by CodeIgniter.</p>
-
-<p>If you would like to edit this page you'll find it located at:</p>
-<code>application/views/welcome_message.php</code>
-
-<p>The corresponding controller for this page is found at:</p>
-<code>application/controllers/welcome.php</code>
-
-<p>If you are exploring CodeIgniter for the very first time, you should start by reading the <a href="user_guide/">User Guide</a>.</p>
-
-
-<p><br />Page rendered in {elapsed_time} seconds</p>
-
+	
+</div>
 </body>
 </html>

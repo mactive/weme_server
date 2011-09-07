@@ -1,26 +1,26 @@
 <?php
 session_start();
 include_once( APPPATH.'/libraries/Weibooauth.php' );
-class Weibo extends Controller {
 
-	function Weibo()
+class Weibo extends CI_Controller {
+
+	function __construct()
 	{
-		parent::Controller();
+		parent::__construct();
 		$this->load->helper('json');	
 		//$this->load->library('Weibooauth');
-		$this->load->library('DX_Auth');
-		$this->load->library('inc');
+		//$this->load->library('Fx_auth');
+		//$this->load->library('inc');
 		//$this->load->library('session');
 
 		$this->load->helper('form');
 		$this->load->helper('url');
-
 	}
 	
 	function index()
 	{
 		$o = new WeiboOAuth( $this->config->item('WB_AKEY') , $this->config->item('WB_SKEY') );
-
+		
 		$keys = $o->getRequestToken();
 		$aurl = $o->getAuthorizeURL( $keys['oauth_token'] ,false , base_url().index_page().'weibo/callback');
 
@@ -52,16 +52,17 @@ class Weibo extends Controller {
 	
 	function weibolist()
 	{
-		$c = new WeiboClient( $this->config->item('WB_AKEY') , $this->config->item('WB_SKEY') , $_SESSION['last_key']['oauth_token'] , $_SESSION['last_key']['oauth_token_secret']  );
-		$ms  = $c->home_timeline(); // done
+		$c = new WeiboClient( $this->config->item('WB_AKEY') , $this->config->item('WB_SKEY') , $_SESSION['last_key']['oauth_token'] , $_SESSION['last_key']['oauth_token_secret']);
+		$ms = $c->home_timeline(); // done
 		$me = $c->verify_credentials();
-		
+				
 		$data=array(
 			'ms'=>$ms,
 			'me'=>$me,
 		);
-		$this->load->view('auth/weibo_list',$data);
-		$this->output->enable_profiler(TRUE);
+
+		$this->load->view('welcome_message',$data);
+		//$this->output->enable_profiler(TRUE);
 	}
 	
 	function post_text()

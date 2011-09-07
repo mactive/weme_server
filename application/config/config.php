@@ -356,6 +356,12 @@ $config['rewrite_short_tags'] = FALSE;
 |
 */
 $config['proxy_ips'] = '';
+/*
+*	新浪微博 APIkey
+*/
+
+$config['WB_AKEY'] = '4189400682';
+$config['WB_SKEY'] = '9783c814916665dc8920863c1c10e12b';
 
 
 /* End of file config.php */
