@@ -271,5 +271,11 @@ class Backend extends CI_Controller
 	}
 	
 	
+	function source(){
+		$this->load->model('weme/source', 'source');
+					
+		
+	}
+	
 }
 ?>

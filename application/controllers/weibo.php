@@ -7,7 +7,7 @@ class Weibo extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->helper('json');	
+		$this->load->helper('json');
 		//$this->load->library('Weibooauth');
 		//$this->load->library('Fx_auth');
 		//$this->load->library('inc');

@@ -16,9 +16,13 @@ class Welcome extends CI_Controller
 			redirect('/auth/login/');
 		} else {
 			$data['user_id']	= $this->fx_auth->get_user_id();
-			$data['username']	= $this->fx_auth->get_username();
-			$data['sitetitle']	= "weme_server";
-			$this->load->view('welcome', $data);
+			$data['username']	= $this->fx_auth->get_username();			
+			$data['fx_role_name'] = $this->session->userdata('fx_role_name');
+			if($data['fx_role_name'] == "Admin"){
+				$this->load->view('welcome_admin', $data);
+			}else{
+				$this->load->view('welcome', $data);
+			}
 		}
 	}
 }
