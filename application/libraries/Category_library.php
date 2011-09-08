@@ -18,6 +18,7 @@ class Category_library {
 	public $filedCdesc;
 	public $filedClevel;
 	public $filedCorder;
+	public $filedCicon;
 	
 	//ÒªÈ¡µÄ·ÖÀàÉî¶È
 	public $depth = 0;
@@ -43,6 +44,7 @@ class Category_library {
 		$this->filedCdesc = (isset($params['filedCdesc']))?$params['filedCdesc']:'desc';
 		$this->filedClevel = (isset($params['filedClevel']))?$params['filedClevel']:'level';
 		$this->filedCorder = (isset($params['filedCorder']))?$params['filedCorder']:'sort_order';		
+		$this->filedCicon = (isset($params['filedCicon']))?$params['filedCicon']:'icon';		
 		
 	}
 	/**
@@ -153,7 +155,7 @@ class Category_library {
 					$str .='</li>';
 				}	
 						
-				$str .= '<li>'.$item[$this->filedCname].' <a href="'.site_url('category/edit/'.$item[$this->filedId]).'">edit</a>';
+				$str .= '<li><img src="'.$item[$this->filedCicon].'"/>'.$item[$this->filedCname].' <a href="'.site_url('category/edit/'.$item[$this->filedId]).'">edit</a>';
 								
 				$preLevel = $item[$this->filedClevel];
 			}
@@ -168,7 +170,7 @@ class Category_library {
 	 * @param $cname ·ÖÀàÃû³Æ
 	 * @param $corder ÅÅÐò£¬ Ö»¶ÔÍ¬Ò»¼¶ÏÂµÄ·ÖÀàÓÐÓÃ
 	 */
-	function addCategory($pid,$cname,$cdesc,$corder)
+	function addCategory($pid,$cname,$cdesc,$corder,$cicon)
 	{
 		$pid = empty($pid) ? 0 : intval($pid) ; 
 		//获得parent_id的信息
@@ -180,7 +182,8 @@ class Category_library {
 			$this->filedCname	=>$cname,
 			$this->filedClevel	=>$parentInfo[$this->filedClevel]+1,
 			$this->filedCorder	=>$corder,
-			$this->filedCdesc 	=>$cdesc
+			$this->filedCdesc 	=>$cdesc,
+			$this->filedCicon 	=>$cicon
 		);
 		
 		//print_r($data);

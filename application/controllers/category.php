@@ -7,7 +7,7 @@ class Category extends CI_Controller
 	{
 		parent::__construct();
 
-		$this->load->helper('url');
+		
 		$params = array(
 			'tableName'=>'source_category',
 			'filedId'=>'id',
@@ -31,12 +31,43 @@ class Category extends CI_Controller
 		$this->load->view('cate_view', $data);
 	}
 	
+	
+	function do_upload()
+	{
+	  	
+	}
+	
+	
 	function post()
 	{
 		//$this->easypost->post();	
-		$this->category_library->addCategory($this->input->post('pid'),$this->input->post('cname'),$this->input->post('cdesc'),$this->input->post('corder'));
-		//echo $this->input->post('cname');
-		redirect('category/index');
+		
+		$config['upload_path'] = './uploads/';
+	  	$config['allowed_types'] = 'gif|jpg|png';
+	  	$config['max_size'] = '100';
+	  	$config['encrypt_name']  = TRUE;
+
+	  	$this->load->library('upload', $config);
+
+	  	if ( ! $this->upload->do_upload())
+	  	{
+	   		$error = array('error' => $this->upload->display_errors());
+			print_r($error);
+	   		//$this->load->view('upload_form', $error);
+	  	} 
+	  	else
+	  	{
+	   		$data = array('upload_data' => $this->upload->data());
+			//echo "upload_success";
+			print_r($data);
+			$file_path = $config['upload_path'].$data['upload_data']['file_name'];
+			$this->category_library->addCategory($this->input->post('pid'),$this->input->post('cname'),$this->input->post('cdesc'),$this->input->post('corder'),$file_path);
+			redirect('category/index');
+			
+	   		//$this->load->view('upload_success', $data);
+	  	}
+
+
 	}
 	function del()
 	{

@@ -1,7 +1,7 @@
 <?php $this->load->view('layout/header',array('width'=>"500","sitetitle"=>"weme_server::user_center"));?>
 	
 	Add category:
-	<form method="post" action="<?php echo site_url('category/post');?>">
+	<?php echo form_open_multipart('category/post');?>
 		Cate:
 		<select name="pid">
 			<option value="0"> 请选择..</option>
@@ -10,6 +10,7 @@
 		
 		Name:<input name="cname" type="text"/> Order:<input name="corder" type="text"/><br>
 		Desc:<input name="cdesc" type="text"/> <br>
+		icon:<input name="userfile" type="file"/> <br>		
 		<input type="submit">
 	</form>
 	
