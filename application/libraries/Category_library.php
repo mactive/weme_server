@@ -110,15 +110,26 @@ class Category_library {
 	 * @param $widthself »òÈ¡×Ó·ÖÀàµÄÊ±ºòÊÇ·ñ»ñÈ¡±¾Éí
 	 * @param $depth Éî¶È
 	 */
-	function getOptionStr($pid = 0,$widthself = false,$depth = 0)
+	function getOptionStr($cid = 0,$pid = 0,$widthself = false,$depth = 0)
 	{
 		$str = '';
 		$cate = $this->getAllCategory($pid,$widthself,$depth);
+		
+		if($cid){
+			$currentInfo = $this->fetchOne($cid);
+		}
+		
 		if (!empty($cate)) 
 		{
 			foreach($cate as $item)
 			{
-				$str.='<option value="'.$item[$this->filedId].'">'.str_repeat('&nbsp;',($item[$this->filedClevel]-$this->startLevel)*4).$item[$this->filedCname].'</option>';
+				if(!empty($cid)){
+					$selected = ($item[$this->filedId] == $currentInfo[$this->filedPid]) ?  "selected" : ""  ; //显示当前项目
+				}else{
+					$selected = ""; //显示当前项目
+				}
+				
+				$str.='<option value="'.$item[$this->filedId].'"'. $selected .'>'.str_repeat('&nbsp;',($item[$this->filedClevel]-$this->startLevel)*4).$item[$this->filedCname].'</option>';
 			}
 		}
 		return $str;
@@ -197,7 +208,7 @@ class Category_library {
 	 * @param $cname ·ÖÀàµÄÃû³Æ
 	 * @param $corder	·ÖÀàÅÅÐò
 	 */
-	function editCategory($cid,$pid,$cname,$cdesc,$corder)
+	function editCategory($cid,$pid,$cname,$cdesc,$corder,$cicon)
 	{
 		$pid = empty($pid) ? 0 : intval($pid) ; 
 		//获得parent_id的信息
@@ -213,7 +224,7 @@ class Category_library {
 		if($levelDiff != 0 )
 		{
 			$childIDArr = $this->getAllCategoryID($cid);
-			var_dump($childIDArr);
+			//var_dump($childIDArr);
 			foreach($childIDArr as $item)
 			{
 				$this->CI->db->set($this->filedClevel, $this->filedClevel.'+'.$levelDiff, FALSE);
@@ -228,8 +239,10 @@ class Category_library {
 			$this->filedCname=>$cname,
 			$this->filedCdesc=>$cdesc,
 			$this->filedClevel=>$newLevel,
-			$this->filedCorder=>$corder,
-		);		
+			$this->filedCorder=>$corder
+		);
+		if(!empty($cicon)){$data[$this->filedCicon]  = $cicon;}
+		
 		$this->CI->db->where($this->filedId, $cid);
 		$this->CI->db->update($this->tableName, $data); 
 		//echo $this->CI->db->last_query().'<br/>';				
@@ -333,4 +346,5 @@ class Category_library {
         }
         return ($a[$this->filedCorder] > $b[$this->filedCorder]) ? +1 : -1;		
 	}
+	
 }

@@ -14,78 +14,87 @@ class Category extends CI_Controller
 			'filedCname'=>'title',
 			'filedCdesc'=>'desc'
 		);
-		$this->load->library('category_library',$params);
+		
+		//$this->load->library('category_library',$params);
 	}
 	
 	function index()
 	{				
-		echo $this->category_library->getListStr();
-		
+		$data['list'] = $this->category_library->getAllCategory();
+
 //		$cate = $this->category_library->getAllCategory();
-//		foreach($cate as $item)
-//		{
-//			echo str_repeat('&nbsp;',$item['clevel']*5).$item['cname']."<br/>";
-//		}
+
 		$str = $this->category_library->getOptionStr();
 		$data['option'] = $str;
 		$this->load->view('cate_view', $data);
 	}
 	
-	
-	function do_upload()
-	{
-	  	
-	}
-	
-	
 	function post()
 	{
-		//$this->easypost->post();	
-		
-		$config['upload_path'] = './uploads/';
+		$file_path = $this->do_upload();
+		$this->category_library->addCategory($this->input->post('pid'),$this->input->post('cname'),$this->input->post('cdesc'),$this->input->post('corder'),$file_path);
+		redirect('category/index');
+
+	}
+	function del($cid)
+	{
+		$this->category_library->delCategory($cid);
+		redirect('category/index');
+	}
+	function edit($cid)
+	{
+		$data['cate'] = $this->category_library->fetchOne($cid);
+		$str = $this->category_library->getOptionStr($cid);
+		$data['option'] = $str;
+		$this->load->view('cate_edit',$data);
+	}
+	function modify($cid)
+	{
+		$temp = $this->do_upload();
+		$file_path = empty($temp) ? "" : $temp ;
+		$this->category_library->editCategory($cid,$this->input->post('pid'),$this->input->post('cname'),$this->input->post('cdesc'),$this->input->post('corder'),$file_path);
+		redirect('category/index');
+	}
+
+	function do_upload()
+	{
+	  	$config['upload_path'] = './uploads/';
 	  	$config['allowed_types'] = 'gif|jpg|png';
-	  	$config['max_size'] = '100';
+	  	$config['max_size'] = '200';
 	  	$config['encrypt_name']  = TRUE;
 
 	  	$this->load->library('upload', $config);
-
-	  	if ( ! $this->upload->do_upload())
+	
+	  	if ( ! $this->upload->do_upload('cicon'))
 	  	{
 	   		$error = array('error' => $this->upload->display_errors());
-			print_r($error);
+			//print_r($error);
 	   		//$this->load->view('upload_form', $error);
 	  	} 
 	  	else
 	  	{
 	   		$data = array('upload_data' => $this->upload->data());
 			//echo "upload_success";
-			print_r($data);
+			//print_r($data);
 			$file_path = $config['upload_path'].$data['upload_data']['file_name'];
-			$this->category_library->addCategory($this->input->post('pid'),$this->input->post('cname'),$this->input->post('cdesc'),$this->input->post('corder'),$file_path);
-			redirect('category/index');
-			
+			return $file_path;
 	   		//$this->load->view('upload_success', $data);
 	  	}
+	}
+	
+	
+	function source_list()
+	{
+		$cid = $this->uri->segment(3);
+		echo $cid;
+		$this->load->model('weme/source','source');
+		$data['list'] = $this->source->get_source_list($cid);
 
-
+		$this->load->view('source_view',$data);
 	}
-	function del()
-	{
-		$this->category_library->delCategory($this->input->post('cid'));
-		redirect('category/index');
-	}
-	function edit($cid)
-	{
-		$data['cate'] = $this->category_library->fetchOne($cid);
-		$str = $this->category_library->getOptionStr();
-		$data['option'] = $str;
-		$this->load->view('cate_edit',$data);
-	}
-	function modify($cid)
-	{
-		$this->category_library->editCategory($cid,$this->input->post('pid'),$this->input->post('cname'),$this->input->post('cdesc'),$this->input->post('corder'));
-		redirect('category/index');
-	}
+	
+	
+	
 }
 
 /* End of file category.php */

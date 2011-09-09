@@ -74,9 +74,17 @@ input:focus {
 }
 form{line-height:50px;}
 
+ul.category_list{}
+ul.category_list li{height:40px;padding:5px;margin:5px 0px;border:1px solid #e0e0e0;line-height:40px;display:block;}
+ul.category_list li div.icon{height:40px; margin:0px 10px;background:#f0f0f0;width:40px;}
+ul.category_list li div.word{height:40px; margin:0px 10px;background:#f0f0f0;width:40px;}
+ul.category_list li a{float:right;height:20px;line-height:20px;margin:5px;}
 
-.icon{width:100px;height:100px;float:left;margin:10px 5px;font-size:10px;text-align:center;}
-.icon img{border:1px dotted #2b7fb4;}
+ul.category_list li.li_1{margin-left:0px;}
+ul.category_list li.li_2{margin-left:30px;}
+ul.category_list li.li_3{margin-left:60px;}
+ul.category_list li.li_4{margin-left:90px;}
+
 /* the new CSS part */
 .radius_2px{-moz-border-radius: 2px;-khtml-border-radius: 2px;-webkit-border-radius: 2px;border-radius: 2px;}
 .radius_3px{-moz-border-radius: 3px;-khtml-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;}
@@ -118,6 +126,9 @@ div.height_70px{height:70px;line-height:70px;}
 .font20px{ font-size:20px;}
 .font24px{ font-size:24px;}
 .font28px{ font-size:28px;}
+.grey333{color:#333333;}
+.grey666{color:#666666;}
+.grey999{color:#999999;}
 /* 所有的单位图片 */
 span.name{color:#6EA6CA;}
 

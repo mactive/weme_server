@@ -1,32 +1,27 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php 
 
-/**
- * Users
- *
- * This model represents source authentication data. It operates the following tables:
- * - source category,
- * - source
- *
- * @package		weme
- * @author		Mactive meng(http://www.we-media.org)
- * @version		1.0.0
- */
-class Source extends CI_Model
+if (! defined('BASEPATH')) exit('No direct script access');
+
+class Source extends CI_Model 
 {
-	private $cat_table_name		= 'source_category';			// user accounts
-	private $source_table_name	= 'sources';	// user profiles
-	
-	function __construct()
+	public $source_table_name = "sources";
+	function __construct() 
 	{
 		parent::__construct();
-
-		$this->_prefix 				= $this->config->item('db_table_prefix','fx_auth');
-		//$this->profile_table_name 	= $this->_prefix.$this->config->item('db_user_profile_table','fx_auth');
 	}
-	
-	function get_category_list(){
 		
+	function get_source_list($cid){
+		echo "===============";
+		if($cid){
+			$this->db->where('cat_id'=>$cid);
+		}
+		$query = $this->db->get($source_table_name);
+		echo $this->db->last_query();
+		return $query->row_array(); 
+				
 	}
+
 }
 
-?>
+/* End of file class_name.php */
+/* Location: ./application/models/class_name.php */
