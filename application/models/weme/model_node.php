@@ -22,7 +22,7 @@ class Model_node extends CI_Model
 	
 
 	
-	public function createNode($data)
+	public function 	($data)
 	{
 		if(!$this->existNode($data['mid'])){
 			$this->indertNode($data);
