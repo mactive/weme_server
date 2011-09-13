@@ -63,6 +63,15 @@ class Weibo extends CI_Controller {
 			'ms'=>$ms,
 			'me'=>$me,
 		);
+	
+		$this->load->model("weme/model_node","model_node");
+	
+		/**/
+	
+		foreach($ms AS $val){
+			$this->model_node->createNode($val);
+		}
+		
 
 		$this->load->view('welcome_message',$data);
 		//$this->output->enable_profiler(TRUE);

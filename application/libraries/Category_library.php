@@ -275,6 +275,7 @@ class Category_library {
 	 */
 	function fetchData()
 	{
+		$this->ci->db->order_by('sort_order');
 		$query = $this->CI->db->get($this->tableName);
 		$resArr = $query->result_array();
 		if(empty($resArr))
