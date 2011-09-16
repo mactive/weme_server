@@ -974,9 +974,9 @@ class WeiboClient
      * @access public 
      * @return array 
      */ 
-    function home_timeline() 
-    { 
-        return $this->oauth->get('http://api.t.sina.com.cn/statuses/home_timeline.json'); 
+    function home_timeline($parameters = array()) 
+    {
+        return $this->oauth->get('http://api.t.sina.com.cn/statuses/home_timeline.json',$parameters); 
     } 
 
     /** 

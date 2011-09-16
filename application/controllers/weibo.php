@@ -54,9 +54,10 @@ class Weibo extends CI_Controller {
 	function weibolist()
 	{
 		$last_key=$this->session->userdata('last_key');
+		$parameters = array('count'=>'20');
 		
 		$c = new WeiboClient( $this->config->item('WB_AKEY') , $this->config->item('WB_SKEY') , $last_key['oauth_token'] , $last_key['oauth_token_secret']);
-		$ms = $c->home_timeline(); // done
+		$ms = $c->home_timeline($parameters); // done
 		$me = $c->verify_credentials();
 				
 		$data=array(
@@ -69,6 +70,8 @@ class Weibo extends CI_Controller {
 		/**/
 	
 		foreach($ms AS $val){
+			$val['user_id'] = $this->session->userdata('user_id');
+			$val['author'] = $val['user']['id'] ;
 			$this->model_node->createNode($val);
 		}
 		

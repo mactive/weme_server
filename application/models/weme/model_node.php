@@ -10,7 +10,7 @@ if (! defined('BASEPATH')) exit('No direct script access');
 class Model_node extends CI_Model 
 {
 
-    private $_table_name  = "weibo_node" ;
+    private $_weibo_table_name  = "weibo_node" ;
 	private $_node_id = 'node_id';
 	private $_doc_id = 'doc_id';
 
@@ -19,15 +19,16 @@ class Model_node extends CI_Model
 		parent::__construct();
 	}
 	
-	
 
-	
-	public function 	($data)
+	/**
+	 * 创建节点
+	 */
+	public function createNode($data)
 	{
 		if(!$this->existNode($data['mid'])){
 			$this->indertNode($data);
 		}else{
-			echo $data['mid']." is existed.";
+			//echo $data['mid']." is existed.";
 		}
 	}
 	
@@ -38,7 +39,7 @@ class Model_node extends CI_Model
 	{
 		$this->db->select('mid');
 		$this->db->where('mid',$mid);
-		$query = $this->db->get($this->_table_name);
+		$query = $this->db->get($this->_weibo_table_name);
 		$res = $query->num_rows() > 0 ? TRUE : FALSE;
 		return $res;
 	}
@@ -62,20 +63,29 @@ class Model_node extends CI_Model
 		$insert_array['in_reply_to_status_id'] = $data['in_reply_to_status_id'];
 		$insert_array['in_reply_to_user_id'] = $data['in_reply_to_user_id'];
 		$insert_array['in_reply_to_screen_name'] = $data['in_reply_to_screen_name'];
-		$insert_array['thumbnail_pic'] = $data['thumbnail_pic'];
-		$insert_array['bmiddle_pic'] = $data['bmiddle_pic'];
-		$insert_array['original_pic'] = $data['original_pic'];
+		$insert_array['thumbnail_pic'] = empty($data['thumbnail_pic']) ? "": $data['thumbnail_pic'];
+		$insert_array['bmiddle_pic'] = empty($data['bmiddle_pic']) ? "" : $data['bmiddle_pic'];
+		$insert_array['original_pic'] = empty($data['original_pic']) ? "" : $data['original_pic'];
 		
-		$this->db->insert($this->_table_name, $insert_array); 
+		$insert_array['user_id'] = $data['user_id'];		//weme_user_id
+		$insert_array['author'] = $data['author'];	//weibo_author
+		
+		$this->db->insert($this->_weibo_table_name, $insert_array); 
 		
 	}
 	
-
-	
-	public function get_source_list($cid){
-		$query = $this->db->get($this->_table_name);
-        echo $this->db->last_query();
-		return $query->row_array();
+	/**
+	 * 获得用户的节点ID
+	 */
+	public function getNodeList($page = '0')
+	{
+		# code...
+		$limit
+		$user_id = $this->session->userdata('user_id');
+		$this->db->where('user_id',$user_id);
+		$this->db->get($this->_weibo_table_name,0,40,);
+		
+		
 	}
 
 }

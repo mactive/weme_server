@@ -5,7 +5,7 @@
 	<br /><?=anchor('/auth/change_password', 'Change Password') ?>
 	<br /><?=anchor('/auth/change_email', 'Change Email') ?>
 	<br /><?=anchor('/auth/unregister', 'Unregister') ?>
-	<br /><?=anchor('/weibo/', 'Brand Weibo') ?>
+	<br /><?=anchor('/weibo/', 'Bind Weibo') ?>
 	</div>
 	
 <?php $this->load->view('layout/footer');?>
